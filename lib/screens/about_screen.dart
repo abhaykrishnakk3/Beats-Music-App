@@ -10,6 +10,7 @@ class ScreenAbout extends StatelessWidget {
       body: SafeArea(child: Column(
       
      
+     
         children: [
           const SizedBox(height: 100,),
         Center(child: Image.asset('assets/splash.png'))
