@@ -79,7 +79,7 @@ class _ScreenPlaylistState extends State<ScreenPlaylist> {
                               child: Center(
                                 child: ListTile(
                                   title: Text(
-                                    playname[index].name!.toUpperCase(),
+                                    playname[index].name!,
                                     style: const TextStyle(
                                         color: Colors.white, fontSize: 20),
                                   ),
