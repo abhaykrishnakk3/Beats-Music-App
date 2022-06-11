@@ -56,7 +56,7 @@ class ScreenPlaylistAdd extends StatelessWidget {
                 (BuildContext ctx, List<PlayListAdd> addplay, Widget? child) {
               return ListView.separated(
                 separatorBuilder: (ctx,index){
-                  return const SizedBox(height: 10,);
+                  return const SizedBox(height: 0,);
                 },
                   itemCount: addplay.length,
                   itemBuilder: (context, index) {
