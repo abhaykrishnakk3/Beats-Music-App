@@ -258,39 +258,7 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                                                                   onPressed: () {
                                                                     playllstnowplayingcheck(
                                                                         index);
-                                                                    // final playname = PlayListAdd(
-                                                                    //     title: widget
-                                                                    //         .song[widget.index].title,
-                                                                    //     image: widget
-                                                                    //         .song[widget.index].id,
-                                                                    //     uri: widget
-                                                                    //         .song[widget.index].uri,
-                                                                    //     playlistid: playListnameNotifier
-                                                                    //         .value[index].id);
-
-                                                                    // for (int i = 0;
-                                                                    //     i <
-                                                                    //         playListAddNotifier
-                                                                    //             .value.length;
-                                                                    //     i++) {
-                                                                    //   if (widget.song[widget.index]
-                                                                    //               .title ==
-                                                                    //           playListAddNotifier
-                                                                    //               .value[i].title &&
-                                                                    //       playListAddNotifier.value[i]
-                                                                    //               .playlistid ==
-                                                                    //           playListnameNotifier
-                                                                    //               .value[index].id) {
-                                                                    //     flag = 1;
-                                                                    //     break;
-                                                                    //   } else {}
-                                                                    // }
-                                                                    // if (flag == 1) {
-                                                                    //   Navigator.of(context).pop();
-                                                                    // } else {
-                                                                    //   playListAddList(playname);
-                                                                    //   Navigator.of(context).pop();
-                                                                    // }
+                                                                   
                                                                   },
                                                                   icon: const Icon(
                                                                       Icons.add),
@@ -369,18 +337,7 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                       onPressed: () {
                         songindex = widget.index;
                         skippprevies();
-                        // if (widget.index > 0) {
-                        //   widget.index = widget.index - 1;
-
-                        //   clickplay();
-                        //   setState(() {});
-                        // } else {
-                        //   widget.index = widget.song.length - 1;
-                        //   clickplay();
-                        //   setState(() {});
-                        // }
-
-                        // favcheckfun(widget.song[widget.index].title);
+                      
                       },
                       icon: const Icon(Icons.skip_previous)),
                   const SizedBox(
@@ -394,20 +351,7 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                         onPressed: () {
                           songindex = widget.index;
                           playpausecontroller();
-                          // playing
-                          //     ? player.playing
-                          //         ? {player.pause(), iconbtn = Icons.play_arrow}
-                          //         : {
-                          //             player.play(),
-                          //             iconbtn = Icons.pause,
-                          //           }
-                          //     : {
-                          //         clickplay1(),
-                          //         playing = true,
-                          //         iconbtn = Icons.pause,
-                          //         setState(() {})
-                          //       };
-                          // setState(() {});
+                        
                         },
                         icon: Icon(iconbtn)),
                   ),
@@ -418,7 +362,7 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                       onPressed: () {
                         if (widget.index < widget.song.length - 1) {
                           widget.index = widget.index + 1;
-                          //  favcheckfun(widget.song[widget.index].title);
+                        
                           songindex = widget.index;
                           clickplay();
 
@@ -478,25 +422,6 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  // void tast2() {
-  //   const snackBar = SnackBar(
-  //     content: SizedBox(
-  //       height: 30.0,
-  //       child: Center(
-  //           child: Text(
-  //         "Favorite Ollready addedd",
-  //         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-  //         textAlign: TextAlign.center,
-  //       )),
-  //     ),
-  //     duration: Duration(seconds: 1),
-  //     backgroundColor: Color.fromARGB(255, 80, 61, 60),
-  //   );
-
-  //   // Find the ScaffoldMessenger in the widget tree
-  //   // and use it to show a SnackBar.
-  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  // }
 
   void skippprevies() {
     if (widget.index > 0) {
@@ -531,22 +456,7 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
             setState(() {})
           };
     setState(() {});
-  //  if(playing){
-  //   playing = true;
-  //   player.pause();
-  //   iconbtn = Icons.play_arrow;
-  //   setState(() {
-      
-  //   });
-  //  }else{
-  //   playing == false;
-  //   player.play();
-    
-  //   iconbtn = Icons.pause;
-  //   setState(() {
-      
-  //   });
-  //  }
+
   }
 
 
