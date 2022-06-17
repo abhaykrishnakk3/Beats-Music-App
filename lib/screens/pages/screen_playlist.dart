@@ -7,6 +7,7 @@ import 'package:music_player_app/screens/play_list_display_screen.dart';
 
 
 dynamic currentplaylistid;
+dynamic con;
 
 class ScreenPlaylist extends StatefulWidget {
   const ScreenPlaylist({Key? key}) : super(key: key);
@@ -20,6 +21,8 @@ class _ScreenPlaylistState extends State<ScreenPlaylist> {
 
   @override
   Widget build(BuildContext context) {
+
+     con = context;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -149,7 +152,7 @@ class _ScreenPlaylistState extends State<ScreenPlaylist> {
                     }, child: const Text('Cancel')),
                     TextButton(
                       onPressed: () {
-                      Navigator.pop(context, 'OK');
+                    //  Navigator.pop(context, 'OK');
                         clickhere(playlistcontroller);
                       },
                       child: const Text('Create'),
@@ -173,7 +176,14 @@ class _ScreenPlaylistState extends State<ScreenPlaylist> {
 
    
     if (name.isEmpty) {
-      return;
+    
+  dynamic SnackBa =    SnackBar(
+    duration: Duration(seconds: 1),
+    backgroundColor: Colors.red,
+     content: Text('Name is required')
+
+    );
+    ScaffoldMessenger.of(con).showSnackBar(SnackBa);
     } else {
       final _name = playlistname(name: name);
 

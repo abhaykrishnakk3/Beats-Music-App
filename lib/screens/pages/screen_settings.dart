@@ -93,8 +93,34 @@ class ScreenSetting extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              resetFucntion();
-              Restart.restartApp();
+             
+              
+              showDialog(
+                  context: context,
+                  builder: (ctx) {
+                    return Center(
+                      child: AlertDialog(
+                       
+                        content: const Text(
+                            'Do you really want to reset your app'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                            },
+                            child: const Text("Cancel"),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                               resetFucntion();
+                               Restart.restartApp();
+                            },
+                            child: const Text("Reset"),
+                          ),
+                        ],
+                      ),
+                    );
+                  });
             },
             leading: IconButton(
               onPressed: () {},

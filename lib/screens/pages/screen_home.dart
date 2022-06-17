@@ -110,10 +110,11 @@ class _ScreenHomeState extends State<ScreenHome> {
                                 primary: false,
                                 itemBuilder: (BuildContext ctx, int index) {
                                   return InkWell(
+                                    
                                     onTap: () {
                                       selectedindex = true;
                                       songindex = index;
-
+                                     playfunction(item.data, index);
                                       setState(() {});
                                       Navigator.of(context).push(
                                           MaterialPageRoute(builder: (ctx) {
@@ -236,6 +237,12 @@ class _ScreenHomeState extends State<ScreenHome> {
             ],
           ),
         ));
+  }
+
+  void playfunction(dynamic song,int  num)async{
+     String? uri = song[num].uri;
+    await player.setAudioSource(AudioSource.uri(Uri.parse(uri!)));
+     player.play();
   }
 
   requestPermission() async {

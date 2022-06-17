@@ -21,33 +21,44 @@ class ScreenSearch extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 88, 216, 255),
-        title: TextField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-            hintText: 'Enter a search song',
-          ),
-          onChanged: (String? value){
-                    
-                if(value == null || value.isEmpty){
-                  temp.value.addAll(songs);
-                  // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-                  temp.notifyListeners();
-                }else{
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+            //  color: Color.fromARGB(255, 137, 202, 239),
+              borderRadius: BorderRadius.circular(10)),
+            child: TextField(
+              decoration: InputDecoration(
+               
+                
+      
                   
-                  temp.value.clear();
-                  for(AllSongModel i in songs){
-                     if(i.title.toLowerCase().contains(value.toLowerCase())){
-                       temp.value.add(i);
-                     }
-                     // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-                     temp.notifyListeners();
-                     
-                  }
-              
-                }
-              
-          },
-          controller: searchController,
+                hintText: 'Enter a search song',
+              ),
+              onChanged: (String? value){
+                        
+                    if(value == null || value.isEmpty){
+                      temp.value.addAll(songs);
+                      // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+                      temp.notifyListeners();
+                    }else{
+                      
+                      temp.value.clear();
+                      for(AllSongModel i in songs){
+                         if(i.title.toLowerCase().contains(value.toLowerCase())){
+                           temp.value.add(i);
+                         }
+                         // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+                         temp.notifyListeners();
+                         
+                      }
+                  
+                    }
+                  
+              },
+              controller: searchController,
+            ),
+          ),
         ),
       ),
       body: Container(
@@ -72,6 +83,8 @@ class ScreenSearch extends StatelessWidget {
                   leading: QueryArtworkWidget(id: searchdata[index].id, type: ArtworkType.AUDIO,),
                   title: Text(data.title),
                   onTap: (){
+                    
+                    FocusScope.of(context).unfocus();
                     Navigator.of(context).push(MaterialPageRoute(builder: (ctx){
                       return ScreenPlayMusic(song: searchdata, index: index);
                     }));

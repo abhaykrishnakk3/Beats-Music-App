@@ -19,7 +19,7 @@ ValueNotifier<bool> favdata = ValueNotifier(false);
 
 final AudioPlayer player = AudioPlayer();
 bool playing = false;
-IconData iconbtn = Icons.play_arrow;
+IconData iconbtn = Icons.pause;
 
 // ignore: must_be_immutable
 class ScreenPlayMusic extends StatefulWidget {
@@ -52,7 +52,10 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
 
   @override
   void initState() {
+    
+    iconbtn = Icons.pause;
     favcheckfun(widget.song[widget.index].title);
+   
     super.initState();
   }
 
@@ -77,23 +80,23 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
         child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
+              child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 
           children: [
-              SizedBox(height: MediaQuery.of(context).size.height*0.05,),
+              SizedBox(height: MediaQuery.of(context).size.height*0.02,),
               Center(
                   child: Container(
                 color: Colors.transparent,
-                height: 300,
-                width: 300,
+                height: MediaQuery.of(context).size.height*0.3,
+                width: MediaQuery.of(context).size.width*0.8,
                 child: QueryArtworkWidget(
                   id: widget.song[widget.index].id,
                   type: ArtworkType.AUDIO,
                   artworkFit: BoxFit.cover,
                 ),
               )),
-              const SizedBox(
-                height: 20,
+               SizedBox(
+                height: MediaQuery.of(context).size.height*0.0,
               ),
               Center(
                 child: Text(
@@ -358,6 +361,7 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                   ],
                 ),
               ),
+              SizedBox(height: MediaQuery.of(context).size.height*0.04,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -430,7 +434,7 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                       icon: const Icon(Icons.skip_next)),
                 ],
               ),
-           // SizedBox(height: 20,),
+           SizedBox(height: MediaQuery.of(context).size.height*0.05,),
           ],
         ),
             )),
@@ -515,15 +519,34 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
             ? {player.pause(), iconbtn = Icons.play_arrow}
             : {
                 player.play(),
+                
                 iconbtn = Icons.pause,
+              
               }
+              
         : {
-            clickplay1(),
+           
             playing = true,
             iconbtn = Icons.pause,
             setState(() {})
           };
     setState(() {});
+  //  if(playing){
+  //   playing = true;
+  //   player.pause();
+  //   iconbtn = Icons.play_arrow;
+  //   setState(() {
+      
+  //   });
+  //  }else{
+  //   playing == false;
+  //   player.play();
+    
+  //   iconbtn = Icons.pause;
+  //   setState(() {
+      
+  //   });
+  //  }
   }
 
 
