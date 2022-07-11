@@ -152,8 +152,9 @@ class _ScreenPlaylistState extends State<ScreenPlaylist> {
                     }, child: const Text('Cancel')),
                     TextButton(
                       onPressed: () {
-                    //  Navigator.pop(context, 'OK');
+                     
                         clickhere(playlistcontroller);
+                        Navigator.of(context).pop();
                       },
                       child: const Text('Create'),
                     ),

@@ -37,8 +37,7 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
 
   bool isFavorite = false;
 
-  bool playing = false;
-  IconData love = Icons.favorite;
+  //IconData love = Icons.favorite;
 
   int flag = 0;
 
@@ -52,10 +51,9 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
 
   @override
   void initState() {
-    
-    iconbtn = Icons.pause;
+   (playing)?iconbtn = Icons.pause:iconbtn = Icons.pause;
     favcheckfun(widget.song[widget.index].title);
-   
+
     super.initState();
   }
 
@@ -79,24 +77,26 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
             ])),
         child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                
-          children: [
-              SizedBox(height: MediaQuery.of(context).size.height*0.02,),
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
               Center(
                   child: Container(
                 color: Colors.transparent,
-                height: MediaQuery.of(context).size.height*0.3,
-                width: MediaQuery.of(context).size.width*0.8,
+                height: MediaQuery.of(context).size.height * 0.3,
+                width: MediaQuery.of(context).size.width * 0.8,
                 child: QueryArtworkWidget(
                   id: widget.song[widget.index].id,
                   type: ArtworkType.AUDIO,
                   artworkFit: BoxFit.cover,
                 ),
               )),
-               SizedBox(
-                height: MediaQuery.of(context).size.height*0.0,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.0,
               ),
               Center(
                 child: Text(
@@ -150,7 +150,8 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                       stream: _durationStateStream,
                       builder: (context, snapshot) {
                         final durationState = snapshot.data;
-                        final progress = durationState?.position ?? Duration.zero;
+                        final progress =
+                            durationState?.position ?? Duration.zero;
                         final total = durationState?.total ?? Duration.zero;
 
                         return Row(
@@ -198,18 +199,22 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                                   return Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      TextButton(onPressed: (){
-                                        Navigator.of(context).push(MaterialPageRoute(builder: (ctx){
-                                          return const ScreenPlaylist();
-                                        }));
-                                      }, child: const Text(
-                                        'Add to New playlist',
-                                        style: TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 255, 255, 255),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600),
-                                      ),),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(builder: (ctx) {
+                                            return const ScreenPlaylist();
+                                          }));
+                                        },
+                                        child: const Text(
+                                          'Add to New playlist',
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             left: 0, right: 0),
@@ -223,20 +228,25 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                                               decoration: const BoxDecoration(
                                                   color: Color.fromARGB(
                                                       255, 88, 216, 255),
-                                                  borderRadius: BorderRadius.only(
-                                                      topLeft: Radius.circular(40),
-                                                      topRight:
-                                                          Radius.circular(40))),
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  40),
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  40))),
                                               child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(16.0),
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
                                                   child: (playListnameNotifier
                                                           .value.isNotEmpty)
                                                       ? ListView.separated(
                                                           separatorBuilder:
                                                               (context, index) {
                                                             return const Divider(
-                                                              color: Colors.black,
+                                                              color:
+                                                                  Colors.black,
                                                             );
                                                           },
                                                           itemCount:
@@ -247,7 +257,8 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                                                             return ListTile(
                                                                 title: Text(
                                                                   playListnameNotifier
-                                                                      .value[index]
+                                                                      .value[
+                                                                          index]
                                                                       .name!,
                                                                   style: const TextStyle(
                                                                       color: Colors
@@ -255,13 +266,14 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                                                                 ),
                                                                 trailing:
                                                                     IconButton(
-                                                                  onPressed: () {
+                                                                  onPressed:
+                                                                      () {
                                                                     playllstnowplayingcheck(
                                                                         index);
-                                                                   
                                                                   },
                                                                   icon: const Icon(
-                                                                      Icons.add),
+                                                                      Icons
+                                                                          .add),
                                                                 ));
                                                           },
                                                         )
@@ -329,7 +341,9 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                   ],
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height*0.04,),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.04,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -337,7 +351,6 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                       onPressed: () {
                         songindex = widget.index;
                         skippprevies();
-                      
                       },
                       icon: const Icon(Icons.skip_previous)),
                   const SizedBox(
@@ -351,7 +364,6 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                         onPressed: () {
                           songindex = widget.index;
                           playpausecontroller();
-                        
                         },
                         icon: Icon(iconbtn)),
                   ),
@@ -362,7 +374,7 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                       onPressed: () {
                         if (widget.index < widget.song.length - 1) {
                           widget.index = widget.index + 1;
-                        
+
                           songindex = widget.index;
                           clickplay();
 
@@ -378,10 +390,12 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                       icon: const Icon(Icons.skip_next)),
                 ],
               ),
-           SizedBox(height: MediaQuery.of(context).size.height*0.05,),
-          ],
-        ),
-            )),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
+              ),
+            ],
+          ),
+        )),
       ),
     );
   }
@@ -422,7 +436,6 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-
   void skippprevies() {
     if (widget.index > 0) {
       widget.index = widget.index - 1;
@@ -444,21 +457,11 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
             ? {player.pause(), iconbtn = Icons.play_arrow}
             : {
                 player.play(),
-                
                 iconbtn = Icons.pause,
-              
               }
-              
-        : {
-           
-            playing = true,
-            iconbtn = Icons.pause,
-            setState(() {})
-          };
+        : {playing = true, iconbtn = Icons.pause, setState(() {})};
     setState(() {});
-
   }
-
 
   void playllstnowplayingcheck(int index) {
     final playname = PlayListAdd(

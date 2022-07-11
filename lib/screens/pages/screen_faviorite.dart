@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 
 import 'package:music_player_app/db_functions/db_functions.dart';
 import 'package:music_player_app/model/song_model.dart';
@@ -65,7 +66,9 @@ class _ScreenFavouriteState extends State<ScreenFavourite> {
                         ),
                         title: Text(favsongs[index].title,style: const TextStyle(overflow: TextOverflow.ellipsis),),
                         onTap: () async {
-                         
+                          String? uri = favsongs[index].uri;
+    await player.setAudioSource(AudioSource.uri(Uri.parse(uri!)));
+     player.play();
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (ctx) {
                           
