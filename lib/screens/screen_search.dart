@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_player_app/model/all_song_model.dart';
 import 'package:music_player_app/screens/music_play_screen.dart';
 import 'package:music_player_app/screens/pages/screen_home.dart';
@@ -12,8 +13,11 @@ class ScreenSearch extends StatelessWidget {
   ScreenSearch({Key? key}) : super(key: key);
   final searchController = TextEditingController();
 
+ int? indexvariable;
+
   @override
   Widget build(BuildContext context) {
+    temp.value.clear();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -30,7 +34,8 @@ class ScreenSearch extends StatelessWidget {
               ),
               onChanged: (String? value) {
                 if (value == null || value.isEmpty) {
-                  temp.value.addAll(songs);
+                 temp.value.clear();
+                // temp.value.addAll(songs);
                   // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
                   temp.notifyListeners();
                 } else {
@@ -74,13 +79,26 @@ class ScreenSearch extends StatelessWidget {
                           type: ArtworkType.AUDIO,
                         ),
                         title: Text(data.title),
-                        onTap: () {
-                          FocusScope.of(context).unfocus();
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (ctx) {
-                            return ScreenPlayMusic(
-                                song: searchdata, index: index);
-                          }));
+                        onTap: () async {
+                          // int i, j;
+                          // for (i = 0; i < songs.length; i++) {
+                          //   for (j = 0; j < searchdata.length; j++) {
+                          //     if (songs[index].id == searchdata[index].id) {
+                          //       indexvariable = i;
+                          //     }
+                          //   }
+                          // }
+                          // String? uri = searchdata[index].uri;
+                          // await player
+                          //     .setAudioSource(AudioSource.uri(Uri.parse(uri!)));
+                          // player.play();
+
+                          // FocusScope.of(context).unfocus();
+                          // Navigator.of(context)
+                          //     .push(MaterialPageRoute(builder: (ctx) {
+                          //   return ScreenPlayMusic(
+                          //       song: searchdata, index: index);
+                          // }));
                         },
                       );
                     },

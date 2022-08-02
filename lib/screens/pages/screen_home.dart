@@ -32,6 +32,8 @@ class _ScreenHomeState extends State<ScreenHome> {
 
   IconData fav = Icons.favorite;
 
+
+
   @override
   // ignore: must_call_super
   void initState() {
@@ -77,6 +79,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                 child: FutureBuilder<List<AllSongModel>>(
                     future: fetchSongs(),
                     builder: (context, item) {
+                    
                       // Loading content
                       // if (item.data == null) {
                       //   return const CircularProgressIndicator();

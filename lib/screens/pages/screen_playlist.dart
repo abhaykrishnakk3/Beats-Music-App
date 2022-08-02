@@ -178,10 +178,10 @@ class _ScreenPlaylistState extends State<ScreenPlaylist> {
    
     if (name.isEmpty) {
     
-  dynamic SnackBa =    SnackBar(
+  dynamic SnackBa =    SnackBar (
     duration: Duration(seconds: 1),
     backgroundColor: Colors.red,
-     content: Text('Name is required')
+     content:  Text('Name is required')
 
     );
     ScaffoldMessenger.of(con).showSnackBar(SnackBa);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:music_player_app/db_functions/db_functions.dart';
 import 'package:music_player_app/model/song_model.dart';
 
@@ -11,8 +12,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 class ScreenPlaylistAdd extends StatelessWidget {
   final String name;
   int? id;
-  ScreenPlaylistAdd({required this.name, this.id, Key? key})
-      : super(key: key);
+  ScreenPlaylistAdd({required this.name, this.id, Key? key}) : super(key: key);
 
   int halo = 0;
 
@@ -44,8 +44,7 @@ class ScreenPlaylistAdd extends StatelessWidget {
                 end: Alignment.bottomCenter,
                 colors: [
               Color.fromARGB(255, 37, 211, 255),
-             
-               Color.fromARGB(255, 223, 205, 221)
+              Color.fromARGB(255, 223, 205, 221)
             ])),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -55,14 +54,20 @@ class ScreenPlaylistAdd extends StatelessWidget {
             builder:
                 (BuildContext ctx, List<PlayListAdd> addplay, Widget? child) {
               return ListView.separated(
-                separatorBuilder: (ctx,index){
-                  return const SizedBox(height: 0,);
-                },
+                  separatorBuilder: (ctx, index) {
+                    return const SizedBox(
+                      height: 0,
+                    );
+                  },
                   itemCount: addplay.length,
                   itemBuilder: (context, index) {
                     return (addplay[index].playlistid == id)
                         ? ListTile(
-                            title: Text(addplay[index].title,style: const TextStyle(overflow: TextOverflow.ellipsis),),
+                            title: Text(
+                              addplay[index].title,
+                              style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis),
+                            ),
                             leading: QueryArtworkWidget(
                                 id: addplay[index].image!,
                                 type: ArtworkType.AUDIO),
@@ -70,9 +75,16 @@ class ScreenPlaylistAdd extends StatelessWidget {
                               onPressed: () {
                                 deleteplaylist(addplay[index].id);
                               },
-                              icon: const Icon(Icons.remove,color: Colors.red,),
+                              icon: const Icon(
+                                Icons.remove,
+                                color: Colors.red,
+                              ),
                             ),
                             onTap: () async {
+                              String? uri = addplay[index].uri;
+                              await player.setAudioSource(
+                                  AudioSource.uri(Uri.parse(uri!)));
+                              player.play();
                               Navigator.of(context)
                                   .push(MaterialPageRoute(builder: (ctx) {
                                 return ScreenPlayMusic(
@@ -91,4 +103,3 @@ class ScreenPlaylistAdd extends StatelessWidget {
     );
   }
 }
-

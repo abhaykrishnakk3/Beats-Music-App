@@ -29,57 +29,61 @@ class _ScreenFavouriteState extends State<ScreenFavourite> {
           height: double.infinity,
           width: double.infinity,
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-              Color.fromARGB(255, 37, 211, 255),
-             
-               Color.fromARGB(255, 223, 205, 221)
-            ])),
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                Color.fromARGB(255, 37, 211, 255),
+                Color.fromARGB(255, 223, 205, 221)
+              ])),
           child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ValueListenableBuilder(
-            valueListenable: favouritmodelnotifer,
-            builder: (BuildContext ctx, List<FavouriteModel> favsongs,
+            padding: const EdgeInsets.all(16.0),
+            child: ValueListenableBuilder(
+              valueListenable: favouritmodelnotifer,
+              builder: (BuildContext ctx, List<FavouriteModel> favsongs,
                   Widget? child) {
-                   
                 return ListView.separated(
-                  separatorBuilder: (ctx,index){
-                  return const Divider();
-                  },
+                    separatorBuilder: (ctx, index) {
+                      return const Divider();
+                    },
                     itemCount: favsongs.length,
                     itemBuilder: (ctx, index) {
                       return ListTile(
-                      
                         trailing: IconButton(
-                          onPressed: (){
+                          onPressed: () {
                             deletefavSong(favsongs[index].id!);
-                          
                           },
-                          icon: const Icon(Icons.favorite,color: Colors.red,),
+                          icon: const Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          ),
                         ),
                         leading: QueryArtworkWidget(
                           id: favsongs[index].image!,
                           type: ArtworkType.AUDIO,
                         ),
-                        title: Text(favsongs[index].title,style: const TextStyle(overflow: TextOverflow.ellipsis),),
+                        title: Text(
+                          favsongs[index].title,
+                          style:
+                              const TextStyle(overflow: TextOverflow.ellipsis),
+                        ),
                         onTap: () async {
                           String? uri = favsongs[index].uri;
-    await player.setAudioSource(AudioSource.uri(Uri.parse(uri!)));
-     player.play();
+                          await player
+                              .setAudioSource(AudioSource.uri(Uri.parse(uri!)));
+                          player.play();
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (ctx) {
-                          
-                            return ScreenPlayMusic(song: favsongs, index: index);
+                            return ScreenPlayMusic(
+                                song: favsongs, index: index);
                           }));
                         },
                       );
                     });
-            },
-          ),
-              ))),
+              },
+            ),
+          ))),
     );
   }
 }
