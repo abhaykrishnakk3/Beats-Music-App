@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:music_player_app/screens/music_play_screen.dart';
+import 'package:music_player_app/screens/now_playing_screen.dart';
 import 'package:music_player_app/screens/pages/screen_home.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -24,14 +24,14 @@ class _ScreenminiplayerState extends State<Screenminiplayer> {
                               child: Container(
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
                                   color: const Color.fromARGB(255, 255, 255, 255),),
-                               height: 70,
+                               height: 80,
                                 
                                   child: Center(
                                     child: ListTile(
                                     
                                       onTap: () => Navigator.of(context)
                                           .push(MaterialPageRoute(builder: (ctx) {
-                                        return ScreenPlayMusic(
+                                        return Nowplay(
                                             song: widget.Listofsongs, index: songindex);
                                       })),
                                       leading: QueryArtworkWidget(

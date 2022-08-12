@@ -22,7 +22,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
     getplayName();
     getPlaylistAdd();
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body:Container(height: double.infinity,width: double.infinity,child:Image.asset(
           'assets/splash1.jpg',fit: BoxFit.cover,
       
@@ -35,6 +35,6 @@ class _ScreenSplashState extends State<ScreenSplash> {
   Future loadHome(BuildContext context) async {
     await Future.delayed(const Duration(seconds: 3));
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => const ScreenMain()));
+        MaterialPageRoute(builder: (ctx) =>  ScreenMain()));
   }
 }

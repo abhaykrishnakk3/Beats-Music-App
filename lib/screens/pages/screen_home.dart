@@ -6,7 +6,7 @@ import 'package:music_player_app/db_functions/db_functions.dart';
 import 'package:music_player_app/model/all_song_model.dart';
 import 'package:music_player_app/model/song_model.dart';
 import 'package:music_player_app/screens/miniplayer/miniplayer.dart';
-import 'package:music_player_app/screens/music_play_screen.dart';
+import 'package:music_player_app/screens/now_playing_screen.dart';
 import 'package:music_player_app/screens/screen_search.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -32,8 +32,6 @@ class _ScreenHomeState extends State<ScreenHome> {
 
   IconData fav = Icons.favorite;
 
-
-
   @override
   // ignore: must_call_super
   void initState() {
@@ -44,7 +42,7 @@ class _ScreenHomeState extends State<ScreenHome> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 88, 216, 255),
+          backgroundColor: Color.fromARGB(255, 219, 219, 219),
           title: const Text(
             'Beats',
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
@@ -65,26 +63,20 @@ class _ScreenHomeState extends State<ScreenHome> {
         body: Container(
           height: double.infinity,
           width: double.infinity,
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                Color.fromARGB(255, 37, 211, 255),
-                Color.fromARGB(255, 223, 205, 221)
-              ])),
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 219, 219, 219),
+          ),
           child: Column(
             children: [
               Expanded(
                 child: FutureBuilder<List<AllSongModel>>(
                     future: fetchSongs(),
                     builder: (context, item) {
-                    
                       // Loading content
                       // if (item.data == null) {
                       //   return const CircularProgressIndicator();
                       // }
-                      if(item.data == null){
+                      if (item.data == null) {
                         return const Center(child: CircularProgressIndicator());
                       }
 
@@ -98,68 +90,48 @@ class _ScreenHomeState extends State<ScreenHome> {
 
                       return Column(children: [
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 16, right: 16, top: 16, bottom: 2),
-                            child: GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithMaxCrossAxisExtent(
-                                        maxCrossAxisExtent: 260,
-                                        mainAxisExtent: 200,
-                                        crossAxisSpacing: 20,
-                                        mainAxisSpacing: 10),
-                                itemCount: item.data!.length,
-                                shrinkWrap: true,
-                                primary: false,
-                                itemBuilder: (BuildContext ctx, int index) {
-                                  return InkWell(
-                                    
-                                    onTap: () {
-                                      selectedindex = true;
-                                      songindex = index;
-                                     playfunction(item.data, index);
-                                      setState(() {});
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(builder: (ctx) {
-                                        return ScreenPlayMusic(
-                                            song: item.data!, index: index);
-                                      }));
-                                    },
-                                    child: Card(
-                                      color: Colors.transparent,
-                                      child: ListView(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        children: [
-                                          SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.16,
-                                            child: QueryArtworkWidget(
+                          child: ListView.builder(
+                              itemCount: item.data!.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  // height: MediaQuery.of(context).size.height*0.1,
+                                  margin: const EdgeInsets.only(
+                                      top: 25.0, left: 12.0, right: 16.0),
+                                  padding: const EdgeInsets.only(
+                                      top: 10.0, bottom: 10),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 219, 219, 219),
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        blurRadius: 4.0,
+                                        offset: Offset(-4, -4),
+                                        color: Colors.white,
+                                      ),
+                                      BoxShadow(
+                                        blurRadius: 4.0,
+                                        offset: Offset(-4, 4),
+                                        color:
+                                            Color.fromARGB(255, 130, 123, 123),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ListTile(
+                                    textColor: Colors.white,
+                                  leading:  QueryArtworkWidget(
                                               id: item.data![index].id,
                                               type: ArtworkType.AUDIO,
                                               artworkFit: BoxFit.cover,
                                               artworkBorder:
-                                                  BorderRadius.circular(0),
+                                                  BorderRadius.circular(13),
                                             ),
-                                          ),
-                                          Container(
-                                              color: Colors.transparent,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.9,
-                                              child: Column(
-                                                children: [
-                                                  ListTile(
-                                                    title: Text(
-                                                      item.data![index].title,
-                                                      style: const TextStyle(
-                                                          overflow: TextOverflow
-                                                              .ellipsis),
-                                                    ),
-                                                    trailing:
+                                    title: Text(
+                                      item.data![index].title,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
+                                     trailing:
                                                         ValueListenableBuilder(
                                                       valueListenable:
                                                           homefavdata,  
@@ -214,20 +186,22 @@ class _ScreenHomeState extends State<ScreenHome> {
                                                                     favi);
                                                               }
                                                             });
-                                                      },
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 50,
-                                                  )
-                                                ],
-                                              )),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }),
-                          ),
+                                                      },),
+                                            
+                                    onTap: () {
+                                      selectedindex = true;
+                                      songindex = index;
+                                     playfunction(item.data, index);
+                                      setState(() {});
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (ctx) {
+                                        return Nowplay(
+                                            song: item.data!, index: index);
+                                      }));
+                                    },
+                                  ),
+                                );
+                              }),
                         ),
                         (selectedindex == true)
                             ? Screenminiplayer(Listofsongs: item.data!)
@@ -242,10 +216,10 @@ class _ScreenHomeState extends State<ScreenHome> {
         ));
   }
 
-  void playfunction(dynamic song,int  num)async{
-     String? uri = song[num].uri;
+  void playfunction(dynamic song, int num) async {
+    String? uri = song[num].uri;
     await player.setAudioSource(AudioSource.uri(Uri.parse(uri!)));
-     player.play();
+    player.play();
   }
 
   requestPermission() async {

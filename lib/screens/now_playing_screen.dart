@@ -11,6 +11,7 @@ import 'package:music_player_app/screens/pages/screen_home.dart';
 import 'package:music_player_app/screens/pages/screen_playlist.dart';
 
 import 'package:music_player_app/static/createplaylistbutton_nowplaying.dart';
+import 'package:music_player_app/widget/newbox.dart';
 
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:rxdart/rxdart.dart';
@@ -22,17 +23,17 @@ bool playing = false;
 IconData iconbtn = Icons.pause;
 
 // ignore: must_be_immutable
-class ScreenPlayMusic extends StatefulWidget {
+class Nowplay extends StatefulWidget {
   List<dynamic> song;
   dynamic index;
-  ScreenPlayMusic({required this.song, required this.index, Key? key})
+  Nowplay({required this.song, required this.index, Key? key})
       : super(key: key);
 
   @override
-  State<ScreenPlayMusic> createState() => _ScreenPlayMusicState();
+  State<Nowplay> createState() => _ScreenPlayMusicState();
 }
 
-class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
+class _ScreenPlayMusicState extends State<Nowplay> {
   List<SongModel> songs = [];
 
   bool isFavorite = false;
@@ -60,93 +61,105 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color.fromARGB(255, 88, 216, 255),
-      ),
-      body: Container(
-        height: double.infinity,
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-              Color.fromARGB(255, 37, 211, 255),
-              Color.fromARGB(255, 255, 21, 228)
-            ])),
-        child: SafeArea(
-            child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+     
+    // backgroundColor:Color.fromARGB(255, 221, 221, 221),
+      body: SafeArea(
+          child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
+                height: 50,
+                width: 50,
+                child: InkWell(
+                  onTap: (){
+                    Navigator.of(context).pop();
+                  },
+                  child: NewBox(
+                    child: Icon(Icons.arrow_back),
+                  ),
+                ),
               ),
-              Center(
-                  child: Container(
+              Text("NOWPLAYING",style: TextStyle(fontWeight: FontWeight.bold),),
+              SizedBox(
+                height: 50,
+                width: 50,
+                child: NewBox(
+                  child: Icon(Icons.menu),
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height*0.02,
+          ),
+          NewBox(
+              child: Column(
+            children: [
+              Container(
                 color: Colors.transparent,
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: QueryArtworkWidget(
-                  id: widget.song[widget.index].id,
-                  type: ArtworkType.AUDIO,
-                  artworkFit: BoxFit.cover,
+              id: widget.song[widget.index].id,
+              type: ArtworkType.AUDIO,
+              artworkFit: BoxFit.cover,
                 ),
-              )),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.0,
               ),
-              Center(
-                child: Text(
+                      SizedBox(height: MediaQuery.of(context).size.height*0.010,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                     Text(
                   widget.song[widget.index].title,
                   style: const TextStyle(
-                      color: Colors.white, overflow: TextOverflow.ellipsis),
+                      color: Colors.black,fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: Column(
-                  children: [
-                    //slider bar container
-                    Container(
-                      padding: EdgeInsets.zero,
-                      margin: const EdgeInsets.only(bottom: 4.0),
+                    ],
+                  ),
+                 ValueListenableBuilder(
+                          valueListenable: favdata,
+                          builder: (context, bool data, _) {
+                            return FavoriteButton(
+                              iconSize: 40,
+                              isFavorite: data,
+                              valueChanged: (_is) {
+                                final favi = FavouriteModel(
+                                  title: widget.song[widget.index].title,
+                                  uri: widget.song[widget.index].uri,
+                                  image: widget.song[widget.index].id,
+                                  favorit: true,
+                                );
+                                for (int i = 0;
+                                    i < favouritmodelnotifer.value.length;
+                                    i++) {
+                                  if (widget.song[widget.index].title ==
+                                      favouritmodelnotifer.value[i].title) {
+                                    flag = 1;
+                                    break;
+                                  } else {}
+                                }
 
-                      //slider bar duration state stream
-                      child: StreamBuilder<DurationState>(
-                        stream: _durationStateStream,
-                        builder: (context, snapshot) {
-                          final durationState = snapshot.data;
-                          final progress =
-                              durationState?.position ?? Duration.zero;
-                          final total = durationState?.total ?? Duration.zero;
-
-                          return ProgressBar(
-                            progress: progress,
-                            total: total,
-                            barHeight: 2.0,
-                            baseBarColor: Colors.grey,
-                            progressBarColor:
-                                const Color.fromARGB(237, 190, 52, 52),
-                            thumbColor: Colors.black.withBlue(49),
-                            timeLabelTextStyle: const TextStyle(
-                              fontSize: 0,
-                            ),
-                            onSeek: (duration) {
-                              player.seek(duration);
-                            },
-                          );
-                        },
-                      ),
-                    ),
-
-                    //position /progress and total text
-                    StreamBuilder<DurationState>(
+                                if (flag == 0) {
+                                  tast();
+                                  addfavourit(favi);
+                                } else {}
+                              },
+                            );
+                          }),
+                ],
+              )
+            ],
+          )),
+          SizedBox(
+            height: MediaQuery.of(context).size.height*0.020,
+          ),
+          StreamBuilder<DurationState>(
                       stream: _durationStateStream,
                       builder: (context, snapshot) {
                         final durationState = snapshot.data;
@@ -162,37 +175,15 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                               child: Text(
                                 progress.toString().split(".")[0],
                                 style: const TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.grey,
                                   fontSize: 15,
+                                  fontWeight: FontWeight.bold
                                 ),
                               ),
                             ),
-                            Flexible(
-                              child: Text(
-                                total.toString().split(".")[0],
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 14),
-                      child: IconButton(
-                          onPressed: () {
-                            showModalBottomSheet(
+                            Icon(Icons.shuffle),
+                            IconButton(onPressed:(){
+                              showModalBottomSheet(
                                 backgroundColor: Colors.transparent,
                                 context: context,
                                 builder: (context) {
@@ -226,8 +217,7 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                                                   0.50,
                                               width: double.infinity,
                                               decoration: const BoxDecoration(
-                                                  color: Color.fromARGB(
-                                                      255, 88, 216, 255),
+                                                color: Color.fromARGB(255, 221, 221, 221),
                                                   borderRadius:
                                                       BorderRadius.only(
                                                           topLeft:
@@ -281,7 +271,7 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .center,
-                                                          children: const [
+                                                          children:  [
                                                             Text(
                                                               'No PlayList',
                                                               style: TextStyle(
@@ -298,79 +288,86 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
                                     ],
                                   );
                                 });
-                          },
-                          icon: const Icon(
-                            Icons.playlist_add,
-                            color: Colors.white70,
-                            size: 30,
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 25),
-                      child: ValueListenableBuilder(
-                          valueListenable: favdata,
-                          builder: (context, bool data, _) {
-                            return FavoriteButton(
-                              iconSize: 40,
-                              isFavorite: data,
-                              valueChanged: (_is) {
-                                final favi = FavouriteModel(
-                                  title: widget.song[widget.index].title,
-                                  uri: widget.song[widget.index].uri,
-                                  image: widget.song[widget.index].id,
-                                  favorit: true,
-                                );
-                                for (int i = 0;
-                                    i < favouritmodelnotifer.value.length;
-                                    i++) {
-                                  if (widget.song[widget.index].title ==
-                                      favouritmodelnotifer.value[i].title) {
-                                    flag = 1;
-                                    break;
-                                  } else {}
-                                }
+                            }, icon:Icon( Icons.playlist_add)),
 
-                                if (flag == 0) {
-                                  tast();
-                                  addfavourit(favi);
-                                } else {}
+                            Flexible(
+                              child: Text(
+                                total.toString().split(".")[0],
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+         SizedBox(
+            height: MediaQuery.of(context).size.height*0.020,
+          ),
+            Container(
+                      padding: EdgeInsets.zero,
+                      margin: const EdgeInsets.only(bottom: 4.0),
+
+                      //slider bar duration state stream
+                      child: NewBox(
+                        child: StreamBuilder<DurationState>(
+                          stream: _durationStateStream,
+                          builder: (context, snapshot) {
+                            final durationState = snapshot.data;
+                            final progress =
+                                durationState?.position ?? Duration.zero;
+                            final total = durationState?.total ?? Duration.zero;
+                      
+                            return ProgressBar(
+                              progress: progress,
+                              total: total,
+                              barHeight: 12.0,
+                              baseBarColor: Colors.white,
+                              progressBarColor:
+                               const  Color.fromARGB(255, 237, 227, 142),
+                              thumbColor: Colors.white,
+                              timeLabelTextStyle: const TextStyle(
+                                fontSize: 0,
+                              ),
+                              onSeek: (duration) {
+                                player.seek(duration);
                               },
                             );
-                          }),
+                          },
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.04,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
+          
+         SizedBox(
+            height: MediaQuery.of(context).size.height*0.040,
+          ),
+          SizedBox(
+            height: 80,
+            child: Row(children: [
+              Expanded(
+                  child: NewBox(child:  IconButton(
                       onPressed: () {
                         songindex = widget.index;
                         skippprevies();
                       },
-                      icon: const Icon(Icons.skip_previous)),
-                  const SizedBox(
-                    width: 30,
+                      icon: const Icon(Icons.skip_previous)),)
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white),
-                    child: IconButton(
+              Expanded(
+                flex: 2,
+                  child:  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: NewBox(child: IconButton(
                         onPressed: () {
                           songindex = widget.index;
                           playpausecontroller();
                         },
-                        icon: Icon(iconbtn)),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  IconButton(
+                        icon: Icon(iconbtn,size: 30,)),),
+                  )),
+              Expanded(
+                  child: NewBox(child:  IconButton(
                       onPressed: () {
                         if (widget.index < widget.song.length - 1) {
                           widget.index = widget.index + 1;
@@ -387,15 +384,12 @@ class _ScreenPlayMusicState extends State<ScreenPlayMusic> {
 
                         favcheckfun(widget.song[widget.index].title);
                       },
-                      icon: const Icon(Icons.skip_next)),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
-              ),
-            ],
-          ),
-        )),
+                      icon: const Icon(Icons.skip_next)),))
+            ]),
+          )
+        ],
+      ),
+      ),
       ),
     );
   }

@@ -3,9 +3,12 @@ import 'package:music_player_app/db_functions/db_functions.dart';
 
 import 'package:music_player_app/model/song_model.dart';
 import 'package:music_player_app/screens/pages/screen_home.dart';
+import 'package:music_player_app/widget/playbutton.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 dynamic ctxx;
+
+int? playlistId;
 
 // ignore: must_be_immutable
 class ScreenSongSelectedPlaylist extends StatelessWidget {
@@ -19,14 +22,17 @@ class ScreenSongSelectedPlaylist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ctxx = context;
-
+    playlistId = playlistid;
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 111, 214, 252),
+     backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 88, 216, 255),
+        leading: IconButton(onPressed: (){
+          Navigator.of(context).pop();
+        },icon: Icon(Icons.arrow_back,color: Colors.black,),),
+       backgroundColor: Colors.white,
         title: Text(
           '$name',
-          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: Colors.black),
         ),
         actions: [
           IconButton(
@@ -55,13 +61,15 @@ class ScreenSongSelectedPlaylist extends StatelessWidget {
                   songs[index].title,
                   style: const TextStyle(overflow: TextOverflow.ellipsis),
                 ),
-                trailing: IconButton(
-                  onPressed: () {
-                    playlistselected(
-                        songs[index].title, songs[index].id, songs[index].uri);
-                  },
-                  icon: const Icon(Icons.add),
-                ),
+                // trailing: IconButton(
+                //   onPressed: () {
+                //     playlistselected(
+                //         songs[index].title, songs[index].id, songs[index].uri);
+                //   },
+                //   icon: const Icon(Icons.add),
+                // ),
+                trailing: PlayButton(titile: songs[index].title, id: songs[index].id, uri: songs[index].uri),
+              
               );
             },
             separatorBuilder: (ctx, index) {
@@ -72,62 +80,25 @@ class ScreenSongSelectedPlaylist extends StatelessWidget {
     );
   }
 
-  void playlistselected(String title, int id, String? uri) {
-    final playname =
-        PlayListAdd(title: title, image: id, uri: uri, playlistid: playlistid!);
+  // void playlistselected(String title, int id, String? uri) {
+  //   final playname =
+  //       PlayListAdd(title: title, image: id, uri: uri, playlistid: playlistid!);
 
-    for (int i = 0; i < playListAddNotifier.value.length; i++) {
-      if (title == playListAddNotifier.value[i].title &&
-          playListAddNotifier.value[i].playlistid == playlistid) {
-        flag = 1;
-        break;
-      } else {}
-    }
-    if (flag == 1) {
-      tostplaylistOllreadyAdded();
-    } else {
-      tastplaylist();
-      playListAddList(playname);
-    }
-  }
+  //   for (int i = 0; i < playListAddNotifier.value.length; i++) {
+  //     if (title == playListAddNotifier.value[i].title &&
+  //         playListAddNotifier.value[i].playlistid == playlistid) {
+  //       flag = 1;
+  //       break;
+  //     } else {}
+  //   }
+  //   if (flag == 1) {
+  //     tostplaylistOllreadyAdded();
+  //   } else {
+  //     tastplaylist();
+  //     playListAddList(playname);
+  //   }
+  // }
 
-  void tastplaylist() {
-    const snackBar = SnackBar(
-      content: SizedBox(
-        height: 30.0,
-        child: Center(
-            child: Text(
-          "PlayList Added",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        )),
-      ),
-      duration: Duration(seconds: 1),
-      backgroundColor: Color.fromARGB(255, 80, 61, 60),
-    );
 
-    // Find the ScaffoldMessenger in the widget tree
-    // and use it to show a SnackBar.
-    ScaffoldMessenger.of(ctxx).showSnackBar(snackBar);
-  }
 
-  void tostplaylistOllreadyAdded() {
-    const snackBar = SnackBar(
-      content: SizedBox(
-        height: 30.0,
-        child: Center(
-            child: Text(
-          "Allready added",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        )),
-      ),
-      duration: Duration(seconds: 1),
-      backgroundColor: Color.fromARGB(255, 80, 61, 60),
-    );
-
-    // Find the ScaffoldMessenger in the widget tree
-    // and use it to show a SnackBar.
-    ScaffoldMessenger.of(ctxx).showSnackBar(snackBar);
-  }
 }

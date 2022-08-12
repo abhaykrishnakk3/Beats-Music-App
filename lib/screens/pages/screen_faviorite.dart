@@ -4,7 +4,8 @@ import 'package:just_audio/just_audio.dart';
 import 'package:music_player_app/db_functions/db_functions.dart';
 import 'package:music_player_app/model/song_model.dart';
 
-import 'package:music_player_app/screens/music_play_screen.dart';
+import 'package:music_player_app/screens/now_playing_screen.dart';
+import 'package:music_player_app/widget/newbox.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class ScreenFavourite extends StatefulWidget {
@@ -19,37 +20,30 @@ class _ScreenFavouriteState extends State<ScreenFavourite> {
   Widget build(BuildContext context) {
     // final  AudioPlayer play = AudioPlayer();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-          backgroundColor: const Color.fromARGB(255, 88, 216, 255),
+          backgroundColor: Colors.white,
           title: const Text(
             'Favourite',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,color: Colors.black),
           )),
-      body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                Color.fromARGB(255, 37, 211, 255),
-                Color.fromARGB(255, 223, 205, 221)
-              ])),
-          child: SafeArea(
-              child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ValueListenableBuilder(
-              valueListenable: favouritmodelnotifer,
-              builder: (BuildContext ctx, List<FavouriteModel> favsongs,
-                  Widget? child) {
-                return ListView.separated(
-                    separatorBuilder: (ctx, index) {
-                      return const Divider();
-                    },
-                    itemCount: favsongs.length,
-                    itemBuilder: (ctx, index) {
-                      return ListTile(
+      body: SafeArea(
+          child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ValueListenableBuilder(
+          valueListenable: favouritmodelnotifer,
+          builder: (BuildContext ctx, List<FavouriteModel> favsongs,
+              Widget? child) {
+            return ListView.separated(
+                separatorBuilder: (ctx, index) {
+                  return const Divider();
+                },
+                itemCount: favsongs.length,
+                itemBuilder: (ctx, index) {
+                  return Container(
+                    color: Color.fromARGB(255, 236, 236, 236),
+                    child: NewBox(
+                      child: ListTile(
                         trailing: IconButton(
                           onPressed: () {
                             deletefavSong(favsongs[index].id!);
@@ -75,15 +69,17 @@ class _ScreenFavouriteState extends State<ScreenFavourite> {
                           player.play();
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (ctx) {
-                            return ScreenPlayMusic(
+                            return Nowplay(
                                 song: favsongs, index: index);
                           }));
                         },
-                      );
-                    });
-              },
-            ),
-          ))),
+                      ),
+                    ),
+                  );
+                });
+          },
+        ),
+      )),
     );
   }
 }
